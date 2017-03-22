@@ -2,26 +2,48 @@ require "journey"
 
 describe Journey do
 
-  subject(:journey) {described_class.new(start, finish, fare, complete)}
-  let(:start) {:starting_journey}
-  let(:finish) {:finishing_journey}
-  let(:fare) {:journey_fare}
-  let(:complete) {:complete_journey}
+  subject(:journey) {described_class.new(entry_station, exit_station)}
+  let(:journey2) {described_class.new(nil, nil)}
+  let(:journey3) {described_class.new(entry_station, nil)}
+  let(:journey4) {described_class.new(nil, exit_station)}
 
-  it "checks that the journey is starting" do
-    expect(journey.start).to eq start
+  let(:entry_station) {:start}
+  let(:exit_station) {:exit}
+
+  context "complete journey" do
+
+    it "journey has a starting point" do
+      expect(journey.entry_station).to eq entry_station
+    end
+
+    it "journey has an exit station" do
+      expect(journey.exit_station).to eq exit_station
+    end
+
+    it "journey has starting and exit stations" do
+      expect(journey.complete?).to eq true
+    end
+
   end
 
-  it "checks that the journey is ending" do
-    expect(journey.finish).to eq finish
-  end
+  context "uncomplete journey" do
 
-  it "calculates fare of a journey" do
-    expect(journey.fare).to eq fare
-  end
+    it "journey has no starting and no exit station" do
+      expect(journey2.entry_station).to eq nil
+      expect(journey2.exit_station).to eq nil
+      expect(journey2.complete?).to eq false
+    end
 
-  it "checks if the journey is complete" do
-    expect(journey.complete).to eq complete
+    it "journey has no exit station" do
+      expect(journey3.exit_station).to eq nil
+      expect(journey3.complete?).to eq false
+    end
+
+    it "journey has no starting station" do
+      expect(journey4.entry_station).to eq nil
+      expect(journey4.complete?).to eq false
+    end
+
   end
 
 end

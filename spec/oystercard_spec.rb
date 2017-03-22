@@ -2,10 +2,13 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:card) {described_class.new}
+
   let(:station) {double(:station)}
   let(:entry_station) {double :station}
   let(:exit_station) {double :station}
+
   let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
+
 
   top_up_amount = 20
 
