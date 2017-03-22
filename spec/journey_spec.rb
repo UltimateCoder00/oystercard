@@ -24,6 +24,10 @@ describe Journey do
       expect(journey.complete?).to eq true
     end
 
+    it "charges minimum fare" do
+      expect(journey.fare).to eq Journey::MINIMUM_FARE
+    end
+
   end
 
   context "uncomplete journey" do
@@ -44,6 +48,12 @@ describe Journey do
       expect(journey4.complete?).to eq false
     end
 
+    it "charges penalty fare" do
+      expect(journey2.fare).to eq Journey::PENALTY_FARE
+    end
+
   end
+
+
 
 end
