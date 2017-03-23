@@ -8,6 +8,11 @@ class JourneyLog
 
   def start(entry_station)
     @current_journey = Journey.new(entry_station)
+  end
+
+  def finish(exit_station)
+    @current_journey.update_exit_station(exit_station)
+    @current_journey.finish
 
   end
 

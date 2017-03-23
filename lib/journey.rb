@@ -8,6 +8,12 @@ class Journey
   def initialize(start = nil, finish = nil)
     @entry_station = start
     @exit_station = finish
+    # @journey_info = {entry_station: start, exit_station: finish}
+  end
+
+  def update_exit_station(exit_station)
+    @exit_station = exit_station
+    # @journey_info[:exit_station] = exit_station
   end
 
   def fare
