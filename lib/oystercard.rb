@@ -7,7 +7,7 @@ class Oystercard
   def initialize(limit = CARD_LIMIT)
     @balance = 0
     @entry_station = nil
-    @history = []
+    @journey_log = JourneyLog.new
   end
 
   def top_up(amount)
@@ -20,11 +20,16 @@ class Oystercard
     self.entry_station = station
   end
 
-  def touch_out(station)
-    journey = Journey.new(entry_station, station)
-    self.history.push(journey.finish)
+  def touch_out(exit_station)
+    @journey_log.start(entry_station)
+    @journey_log.finish(exit_station)
+
     self.entry_station = nil
-    deduct(journey.fare)
+    deduct(@journey_log.current_journey.fare)
+  end
+
+  def card_history
+    @journey_log.journeys
   end
 
   private

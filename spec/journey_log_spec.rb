@@ -27,18 +27,10 @@ describe JourneyLog do
 
   describe "#finish" do
 
-    it "passes a station to the current_journey class" do
+    it "passes a exit station to the current_journey class" do
       journey_log.start(entry_station)
       journey_log.finish(exit_station)
       expect(journey_log.current_journey.finish).to eq(completed_journey)
-    end
-
-    it "adds the completed journey to the journeys array" do
-
-    end
-
-    it "resets the current_journey class to nil" do
-
     end
 
   end

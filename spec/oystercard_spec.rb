@@ -56,7 +56,7 @@ describe Oystercard do
       card.top_up(top_up_amount)
       card.touch_in(entry_station)
       card.touch_out(exit_station)
-      expect(card.history).to eq [journey]
+      expect(card.card_history).to eq [journey]
     end
   end
 
@@ -65,7 +65,7 @@ describe Oystercard do
       card.top_up(top_up_amount)
       card.touch_in(entry_station)
       card.touch_out(exit_station)
-      expect(card.history).to eq [journey]
+      expect(card.card_history).to eq [journey]
     end
   end
 

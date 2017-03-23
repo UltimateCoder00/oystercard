@@ -12,8 +12,7 @@ class JourneyLog
 
   def finish(exit_station)
     @current_journey.update_exit_station(exit_station)
-    @current_journey.finish
-
+    @journeys << @current_journey.finish
   end
 
 end
