@@ -3,8 +3,8 @@ require "journey"
 describe Journey do
 
   subject(:journey) {described_class.new(entry_station, exit_station)}
-  let(:entry_station) {:start_journey}
-  let(:exit_station) {:end_journey}
+  let(:entry_station) {double(:start_journey, station_zone: 1)}
+  let(:exit_station) {double(:end_journey, station_zone: 3)}
 
   let(:journey_history) { {entry_station: entry_station, exit_station: exit_station} }
 
@@ -37,7 +37,8 @@ describe Journey do
 
     describe '#fare' do
       it "Check minimum fare charge" do
-        expect(journey.fare).to eq Journey::MINIMUM_FARE
+        zone_difference = (entry_station.station_zone - exit_station.station_zone).abs + 1
+        expect(journey.fare).to eq (Journey::MINIMUM_FARE) * zone_difference
       end
     end
 

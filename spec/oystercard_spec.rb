@@ -7,7 +7,9 @@ describe Oystercard do
   let(:entry_station) {:station}
   let(:exit_station) {:station}
 
-  let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
+  let(:journey_log) { {entry_station: entry_station, exit_station: exit_station} }
+  let(:entry_station) {double(:start_journey, station_zone: 1)}
+  let(:exit_station) {double(:end_journey, station_zone: 3)}
 
   top_up_amount = 20
 
@@ -45,9 +47,18 @@ describe Oystercard do
 
   describe "#touch_out" do
     it 'Charge card by minimum amount at touch out' do
+      exit_station = double(:end_journey, station_zone: 1)
       card.top_up(top_up_amount)
       card.touch_in(entry_station)
       expect{card.touch_out(exit_station)}.to change{card.balance}.by -Oystercard::MINIMUM_BALANCE
+    end
+
+    it 'Charge card by difference in zone at touch out' do
+      entry_station = double(:start_journey, station_zone: 1)
+      exit_station = double(:end_journey, station_zone: 3)
+      card.top_up(top_up_amount)
+      card.touch_in(entry_station)
+      expect{card.touch_out(exit_station)}.to change{card.balance}.by -((entry_station.station_zone - exit_station.station_zone).abs + 1)
     end
   end
 
@@ -56,7 +67,7 @@ describe Oystercard do
       card.top_up(top_up_amount)
       card.touch_in(entry_station)
       card.touch_out(exit_station)
-      expect(card.card_history).to eq [journey]
+      expect(card.card_history).to eq [journey_log]
     end
   end
 
@@ -65,7 +76,7 @@ describe Oystercard do
       card.top_up(top_up_amount)
       card.touch_in(entry_station)
       card.touch_out(exit_station)
-      expect(card.card_history).to eq [journey]
+      expect(card.card_history).to eq [journey_log]
     end
   end
 
