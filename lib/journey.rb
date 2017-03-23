@@ -1,3 +1,5 @@
+require_relative 'station'
+
 class Journey
 
   MINIMUM_FARE = 1
@@ -8,16 +10,14 @@ class Journey
   def initialize(start = nil, finish = nil)
     @entry_station = start
     @exit_station = finish
-    # @journey_info = {entry_station: start, exit_station: finish}
   end
 
   def update_exit_station(exit_station)
     @exit_station = exit_station
-    # @journey_info[:exit_station] = exit_station
   end
 
   def fare
-    complete? ? MINIMUM_FARE : PENALTY_FARE
+    complete? ? (zone_difference * MINIMUM_FARE) : PENALTY_FARE
   end
 
   def finish
@@ -28,6 +28,10 @@ class Journey
 
   def complete?
     !!entry_station && !!exit_station
+  end
+
+  def zone_difference
+    (entry_station.station_zone - exit_station.station_zone).abs + 1
   end
 
 end
